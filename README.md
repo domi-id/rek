@@ -1,3 +1,3 @@
-# :sparkles: REK exceptional kompressor :ok_hand:
+# :sparkles: REK exceptional kompressor
 
-Compresses reks exceptionally.
+Compresses reks exceptionally :ok_hand:
