@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 #
 #   Copyright (c) 2019 cryptobox.us
 #
@@ -24,17 +24,17 @@ if __name__ == "__main__":
             if not args.outfile:
                 args.outfile = args.infile + ".rec"
             if os.path.exists(args.outfile) and not args.force:
-                sys.stderr.write("Cowardly refusing to overwrite %s\n" % args.outfile)
+                print(f"Cowardly refusing to overwrite {args.outfile}", file=sys.stderr)
                 exit(1)
 
-            reklib.decompress(open(args.infile), open(args.outfile, "wb"))
+            reklib.decompress(open(args.infile, "rb"), open(args.outfile, "wb"))
 
         elif not sys.stdin.isatty():
-            reklib.decompress(sys.stdin, sys.stdout)
+            reklib.decompress(sys.stdin.buffer, sys.stdout.buffer)
 
         else:
             parser.print_help()
 
     except NotImplementedError:
-        sys.stderr.write("orka\n")
+        print("orka", file=sys.stderr)
         exit(1)

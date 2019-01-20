@@ -2,6 +2,10 @@
 
 Compresses reks exceptionally :ok_hand:
 
+## Rekquirements
+
+Needs Python 3.6 or newer. Because f-strings.
+
 ## Usage
 
 REK comes with two command line utilities: `rek` and `unrek`.

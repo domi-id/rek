@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 #
 #   Copyright (c) 2019 cryptobox.us
 #
@@ -9,14 +9,14 @@ import sys
 
 import reklib
 
-LEVELS = [
-    ("pusy", "use bzip2"),
+LEVELS = (
+    ("pusy", "use lzma"),
     ("chiken", "lossless, keep useless data"),
     ("norm", "lossless"),
     ("oke", "lossless, discard sounds"),
     ("very", "lossy"),
     ("max", "lossy, discard sounds")
-]
+)
 
 
 if __name__ == "__main__":
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     group.add_argument("-m", "--moar", help="compress harder",
                        dest="level", action="count", default=0)
     for i, (name, desc) in enumerate(LEVELS):
-        group.add_argument("-%d" % i, "--%s" % name, help=desc,
+        group.add_argument(f"-{i}", f"--{name}", help=desc,
                            dest="level", action="store_const", const=i)
 
     args = parser.parse_args()
@@ -42,17 +42,17 @@ if __name__ == "__main__":
             if not args.outfile:
                 args.outfile = args.infile + ".rek"
             if os.path.exists(args.outfile) and not args.force:
-                sys.stderr.write("Cowardly refusing to overwrite %s\n" % args.outfile)
+                print(f"Cowardly refusing to overwrite {args.outfile}", file=sys.stderr)
                 exit(1)
             
-            reklib.compress(open(args.infile), open(args.outfile, "wb"), args.level)
+            reklib.compress(open(args.infile, "rb"), open(args.outfile, "wb"), args.level)
 
         elif not sys.stdin.isatty():
-            reklib.compress(sys.stdin, sys.stdout, args.level)
+            reklib.compress(sys.stdin.buffer, sys.stdout.buffer, args.level)
 
         else:
             parser.print_help()
 
     except NotImplementedError:
-        sys.stderr.write("orka\n")
+        print("orka", file=sys.stderr)
         exit(1)
